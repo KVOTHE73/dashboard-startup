@@ -2,7 +2,7 @@
   <div
     class="card border-0 text-truncate bg-gray-800 text-white border-radius-top"
   >
-    <div class="card-body">
+    <div class="card-body mb-3">
       <!-- Total sesiones + gráfica -->
       <div class="d-flex align-items-center mb-1">
         <h2 class="text-white mb-0">

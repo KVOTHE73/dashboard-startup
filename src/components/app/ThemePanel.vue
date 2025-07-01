@@ -30,7 +30,7 @@
     ></a>
     <perfect-scrollbar class="theme-panel-content h-100">
       <!-- 🔹 Paleta de colores -->
-      <h5>Ajustes de color</h5>
+      <h5>{{ t("themePanel.colorAdjustment") }}</h5>
       <div class="theme-list">
         <div
           class="theme-list-item"
@@ -60,7 +60,7 @@
       <!-- 🔹 Modo claro (defecto) / oscuro -->
       <div class="row mt-10px">
         <div class="col-8 control-label text-dark fw-bold">
-          <div>Modo oscuro</div>
+          <div>{{ t("themePanel.darkMode") }}</div>
         </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
@@ -85,7 +85,7 @@
       <div class="row mt-10px align-items-center">
         <!-- Cabecera (header) -->
         <div class="col-8 control-label text-dark fw-bold">
-          Ocultar cabecera
+          {{ t("themePanel.headerHide") }}
         </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
@@ -103,7 +103,9 @@
         </div>
       </div>
       <div class="row mt-10px align-items-center">
-        <div class="col-8 control-label text-dark fw-bold">Cabecera fija</div>
+        <div class="col-8 control-label text-dark fw-bold">
+          {{ t("themePanel.fixedHeader") }}
+        </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
             <input
@@ -121,7 +123,7 @@
       </div>
       <div class="row mt-10px align-items-center">
         <div class="col-8 control-label text-dark fw-bold">
-          Cabecera invertida
+          {{ t("themePanel.invertedHeader") }}
         </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
@@ -142,7 +144,9 @@
       </div>
       <!-- sidebar -->
       <div class="row mt-10px align-items-center">
-        <div class="col-8 control-label text-dark fw-bold">Ocultar sidebar</div>
+        <div class="col-8 control-label text-dark fw-bold">
+          {{ t("themePanel.sidebarHide") }}
+        </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
             <input
@@ -159,7 +163,9 @@
         </div>
       </div>
       <div class="row mt-10px align-items-center">
-        <div class="col-8 control-label text-dark fw-bold">Sidebar fija</div>
+        <div class="col-8 control-label text-dark fw-bold">
+          {{ t("themePanel.fixedSidebar") }}
+        </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
             <input
@@ -177,7 +183,7 @@
       </div>
       <div class="row mt-10px align-items-center">
         <div class="col-8 control-label text-dark fw-bold">
-          Sidebar invertida
+          {{ t("themePanel.invertedSidebar") }}
         </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
@@ -196,7 +202,7 @@
       </div>
       <div class="row mt-10px align-items-center">
         <div class="col-8 control-label text-dark fw-bold">
-          Sidebar con rejilla
+          {{ t("themePanel.sidebarGrid") }}
         </div>
         <div class="col-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
@@ -215,7 +221,7 @@
       </div>
       <div class="row mt-10px align-items-center">
         <div class="col-md-8 control-label text-dark fw-bold">
-          Activar gradiente
+          {{ t("themePanel.gradientEnabled") }}
         </div>
         <div class="col-md-4 d-flex">
           <div class="form-check form-switch ms-auto mb-0">
@@ -239,7 +245,15 @@
 
       <!-- 🔹 copyright -->
       <div class="text-gray-600 text-center text-gray-500-darker mb-0">
-        &copy; Nacho Rodríguez 2025
+        &copy;
+        <a
+          href="https://www.nacho-rodriguez.com"
+          target="_blank"
+          rel="noopener"
+          class="copyright-link"
+          >Nacho Rodríguez</a
+        >
+        2025
       </div>
     </perfect-scrollbar>
   </div>
@@ -248,6 +262,7 @@
 <script setup lang="ts">
 // ─── 📌 Core ───────────────────────────────────────────────────
 import { onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 
 // ─── 📌 Plugins ────────────────────────────────────────────────
 import * as bootstrap from "bootstrap";
@@ -260,6 +275,7 @@ import { useAppOptionStore } from "@/stores/app-option";
 import { useAppVariableStore, generateVariables } from "@/stores/app-variable";
 
 // ─── 📌 Instancias ─────────────────────────────────────────────
+const { t } = useI18n();
 const appOption = useAppOptionStore();
 const appVariable = useAppVariableStore();
 const emitter = useEmitter();
@@ -500,3 +516,15 @@ onMounted(() => {
   }
 });
 </script>
+
+<style>
+.copyright-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.copyright-link:hover {
+  text-decoration: underline;
+  color: #4a4a4a; /* un poco más oscuro que el gris base */
+}
+</style>

@@ -42,6 +42,9 @@
         <a
           href="#"
           @click.prevent="toggleSidebar"
+          :title="
+            appOption.appSidebarHide ? t('sidebar.open') : t('sidebar.close')
+          "
           class="navbar-logo d-none d-md-inline-block"
           style="cursor: pointer"
         ></a>
@@ -121,15 +124,16 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Buscar..."
+              :placeholder="t('searchbar.placeholder')"
               v-model="term"
               @keyup.enter="onSearch"
             />
             <button type="submit" class="btn btn-search">
-              <i class="fa fa-search"></i>
+              <i :title="t('searchbar.search')" class="fa fa-search"></i>
               <i
                 v-if="term"
                 class="ms-1 fas fa-times fs-17px mb-1"
+                :title="t('searchbar.clearSearch')"
                 style="color: red"
                 v-on:click="clearSearch"
               ></i>
@@ -164,13 +168,14 @@
           href="javascript:;"
           data-bs-toggle="dropdown"
           class="navbar-link dropdown-toggle icon"
+          :title="t('notifications.title')"
         >
           <i class="fa fa-bell"></i>
           <span class="badge">{{ notificationData.length }}</span>
         </a>
         <div class="dropdown-menu media-list dropdown-menu-end">
           <div class="dropdown-header">
-            NOTIFICACIONES ({{ notificationData.length }})
+            {{ t("notifications.header") }} ({{ notificationData.length }})
           </div>
           <template v-if="notificationData && notificationData.length > 0">
             <a
@@ -204,11 +209,13 @@
           </template>
           <template v-else>
             <div class="text-center w-300px py-3">
-              No existen notificaciones
+              {{ t("notifications.empty") }}
             </div>
           </template>
           <div class="dropdown-footer text-center">
-            <a href="javascript:;" class="text-decoration-none">Ver más</a>
+            <a href="javascript:;" class="text-decoration-none">{{
+              t("notifications.seeMore")
+            }}</a>
           </div>
         </div>
       </div>
@@ -228,16 +235,16 @@
           <b class="caret"></b>
         </a>
         <div class="dropdown-menu dropdown-menu-end">
-          <a href="javascript:;" @click="setLang('en')" class="dropdown-item"
-            ><span class="fi fi-us me-2" title="us"></span
-            ><img :src="flagEn" alt="English" class="flag" />&nbsp;{{
-              t("lang.en")
-            }}</a
-          >
           <a href="javascript:;" @click="setLang('es')" class="dropdown-item"
             ><span class="fi fi-cn me-2" title="es"></span
             ><img :src="flagEs" alt="Español" class="flag" />&nbsp;{{
               t("lang.es")
+            }}</a
+          >
+          <a href="javascript:;" @click="setLang('en')" class="dropdown-item"
+            ><span class="fi fi-us me-2" title="us"></span
+            ><img :src="flagEn" alt="English" class="flag" />&nbsp;{{
+              t("lang.en")
             }}</a
           >
         </div>
@@ -262,12 +269,16 @@
         </a>
         <!-- dropdown de opciones del usuario logueado -->
         <div class="dropdown-menu dropdown-menu-end me-1">
-          <a href="javascript:;" class="dropdown-item">Editar perfil</a>
-          <a href="javascript:;" class="dropdown-item">Configuración</a>
+          <a href="javascript:;" class="dropdown-item">{{
+            t("user.profile")
+          }}</a>
+          <a href="javascript:;" class="dropdown-item">{{
+            t("user.settings")
+          }}</a>
           <div class="dropdown-divider"></div>
-          <a href="javascript:;" @click="logOut" class="dropdown-item"
-            >Desconectarse</a
-          >
+          <a href="javascript:;" @click="logOut" class="dropdown-item">{{
+            t("user.logOut")
+          }}</a>
         </div>
       </div>
 

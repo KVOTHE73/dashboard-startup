@@ -6,18 +6,23 @@ function countDecimals(x: number): number {
 function formatNumber(
   value: number,
   locale: string,
-  style: "currency" | "decimal" = "decimal"
+  style: "currency" | "decimal" | "integer" = "decimal"
 ): string {
-  const options: Intl.NumberFormatOptions = {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  };
+  const options: Intl.NumberFormatOptions = {};
 
   if (style === "currency") {
     options.style = "currency";
     options.currency = locale === "es" ? "EUR" : "USD";
+    options.minimumFractionDigits = 2;
+    options.maximumFractionDigits = 2;
+  } else if (style === "integer") {
+    options.style = "decimal";
+    options.minimumFractionDigits = 0;
+    options.maximumFractionDigits = 0;
   } else {
     options.style = "decimal";
+    options.minimumFractionDigits = 2;
+    options.maximumFractionDigits = 2;
   }
 
   return new Intl.NumberFormat(locale, options).format(value);
@@ -28,7 +33,7 @@ export function animateNumber(locale: string) {
   elms.forEach((elm: HTMLElement) => {
     const targetAnimate = elm.getAttribute("data-animation");
     const targetValueAttr = elm.getAttribute("data-value");
-    const targetFormat = elm.getAttribute("data-format") || "decimal"; // por defecto decimal
+    const targetFormat = elm.getAttribute("data-format") || "decimal";
 
     if (!targetAnimate || !targetValueAttr) return;
 
@@ -45,7 +50,8 @@ export function animateNumber(locale: string) {
         break;
       case "number":
         const targetValue = +targetValueAttr.replace(",", ".");
-        const decimal = countDecimals(targetValue);
+        const decimal =
+          targetFormat === "integer" ? 0 : countDecimals(targetValue);
         const value = targetValue;
         const time = value / 300;
         const animate = () => {
@@ -55,7 +61,7 @@ export function animateNumber(locale: string) {
             elm.innerText = formatNumber(
               +targetText.toFixed(decimal),
               locale,
-              targetFormat as "currency" | "decimal"
+              targetFormat as "currency" | "decimal" | "integer"
             );
             elm.dataset.count = targetText.toString();
             setTimeout(animate, 1);
@@ -63,7 +69,7 @@ export function animateNumber(locale: string) {
             elm.innerText = formatNumber(
               value,
               locale,
-              targetFormat as "currency" | "decimal"
+              targetFormat as "currency" | "decimal" | "integer"
             );
           }
         };

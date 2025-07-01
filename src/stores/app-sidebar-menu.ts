@@ -1,15 +1,19 @@
 import { defineStore } from "pinia";
 
+/**
+ * Store for managing the sidebar menu in the application.
+ * This store defines the structure of the sidebar menu items.
+ */
 export const useAppSidebarMenuStore = defineStore("appSidebarMenu", () => {
   return [
     {
-      text: "Navegación",
+      text: "sidebar.navigation",
       is_header: true,
     },
     {
       url: "/",
       icon: "fa fa-sitemap",
-      title: "Deashboard",
+      title: "sidebar.dashboard",
     },
     /*
 	{ url: '/menu', icon: 'fa fa-align-left', title: 'Menu Level',

@@ -5,6 +5,7 @@
         class="btn btn-theme rounded-circle"
         style="width: 40px; height: 40px; padding: 0"
         :title="t('dashboard.add')"
+        :disabled="!availableWidgets.length"
         @click="openWidgetSelector"
       >
         <i class="fa fa-plus"></i>
@@ -69,7 +70,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="widgetSelectorLabel">
-              Seleccionar widget
+              {{ t("dashboard.widgetsModal.title") }}
             </h5>
             <button
               type="button"
@@ -80,8 +81,10 @@
           </div>
           <div class="modal-body">
             <select class="form-select" v-model="selectedWidget">
-              <option disabled value="">Selecciona un widget</option>
-              <option v-for="w in dashboardWidgets" :key="w.id" :value="w.id">
+              <option disabled value="">
+                {{ t("dashboard.widgetsModal.widgetSelect") }}
+              </option>
+              <option v-for="w in availableWidgets" :key="w.id" :value="w.id">
                 {{ w.name }} ({{ w.colSpan }} cols)
               </option>
             </select>
@@ -92,14 +95,14 @@
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancelar
+              {{ t("dashboard.widgetsModal.btnCancel") }}
             </button>
             <button
               type="button"
               class="btn btn-primary"
               @click="addSelectedWidget"
             >
-              Añadir
+              {{ t("dashboard.widgetsModal.btnAdd") }}
             </button>
           </div>
         </div>
@@ -141,25 +144,25 @@ const dashboardWidgets = computed(() => [
     id: "marketingCampaign",
     name: t("dashboard.widgets.marketingCampaign.title"),
     tooltipContent: t("dashboard.widgets.marketingCampaign.tooltipContent"),
-    colSpan: 3,
+    colSpan: 4,
   },
   {
     id: "sessionByLocation",
     name: t("dashboard.widgets.sessionByLocation.title"),
     tooltipContent: t("dashboard.widgets.sessionByLocation.tooltipContent"),
-    colSpan: 3,
+    colSpan: 4,
   },
   {
     id: "topProducts",
     name: t("dashboard.widgets.topProducts.title"),
     tooltipContent: t("dashboard.widgets.topProducts.tooltipContent"),
-    colSpan: 3,
+    colSpan: 4,
   },
   {
     id: "salesBySocial",
     name: t("dashboard.widgets.salesBySocial.title"),
     tooltipContent: t("dashboard.widgets.salesBySocial.tooltipContent"),
-    colSpan: 3,
+    colSpan: 4,
   },
   {
     id: "conversionRate",
@@ -174,6 +177,10 @@ const dashboardWidgets = computed(() => [
     colSpan: 3,
   },
 ]);
+
+const availableWidgets = computed(() =>
+  dashboardWidgets.value.filter((w) => !layoutRow.value.includes(w.id))
+);
 
 const componentsMap: Record<string, any> = {
   totalSales: TotalSalesWidget,

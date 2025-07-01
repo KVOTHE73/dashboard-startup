@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import { useAppSidebarMenuStore } from "@/stores/app-sidebar-menu";
 import { useAppOptionStore } from "@/stores/app-option";
 import { onMounted } from "vue";
@@ -7,6 +8,7 @@ import { slideUp } from "@/composables/slideUp.js";
 import { slideDown } from "@/composables/slideDown.js";
 import SidebarNav from "@/components/app/SidebarNav.vue";
 
+const { t } = useI18n();
 const appSidebarMenu = useAppSidebarMenuStore();
 const appOption = useAppOptionStore();
 var appSidebarFloatSubmenuTimeout = "";
@@ -547,7 +549,7 @@ onMounted(() => {
                 </div>
                 <div class="menu-caret ms-auto"></div>
               </div>
-              <small>Frontend developer</small>
+              <small>{{ t("user.occupation") }}</small>
             </div>
           </a>
         </div>
@@ -555,19 +557,19 @@ onMounted(() => {
           <div class="menu-item pt-5px">
             <a href="javascript:;" class="menu-link">
               <div class="menu-icon"><i class="fa fa-cog"></i></div>
-              <div class="menu-text">Ajustes</div>
+              <div class="menu-text">{{ t("user.settings") }}</div>
             </a>
           </div>
           <div class="menu-item">
             <a href="javascript:;" class="menu-link">
               <div class="menu-icon"><i class="fa fa-pencil-alt"></i></div>
-              <div class="menu-text">Enviar feedback</div>
+              <div class="menu-text">{{ t("user.feedback") }}</div>
             </a>
           </div>
           <div class="menu-item pb-5px">
             <a href="javascript:;" class="menu-link">
               <div class="menu-icon"><i class="fa fa-question-circle"></i></div>
-              <div class="menu-text">Ayuda</div>
+              <div class="menu-text">{{ t("user.help") }}</div>
             </a>
           </div>
           <div class="menu-divider m-0"></div>
@@ -581,7 +583,9 @@ onMounted(() => {
           />
         </div>
         <template v-for="menu in appSidebarMenu">
-          <div class="menu-header" v-if="menu.is_header">{{ menu.text }}</div>
+          <div class="menu-header" v-if="menu.is_header">
+            {{ t(menu.text) }}
+          </div>
           <div class="menu-divider" v-else-if="menu.is_divider"></div>
           <template v-else>
             <sidebar-nav v-if="menu.title" v-bind:menu="menu"></sidebar-nav>
