@@ -14,6 +14,7 @@
         class="btn btn-primary rounded-circle"
         style="width: 40px; height: 40px; padding: 0"
         :title="t('dashboard.save')"
+        :disabled="!canSave"
         @click="saveLayout"
       >
         <i class="fa fa-save"></i>
@@ -22,9 +23,19 @@
         class="btn btn-danger rounded-circle"
         style="width: 40px; height: 40px; padding: 0"
         :title="t('dashboard.clear')"
+        :disabled="!canClear"
         @click="clearLayout"
       >
         <i class="fa fa-trash"></i>
+      </button>
+      <button
+        class="btn btn-secondary rounded-circle"
+        style="width: 40px; height: 40px; padding: 0"
+        :title="t('dashboard.restoreDefault')"
+        :disabled="!canRestore"
+        @click="restoreDefaultLayout"
+      >
+        <i class="fa fa-undo"></i>
       </button>
     </div>
 
@@ -109,12 +120,14 @@
       </div>
     </div>
   </div>
+  <ConfirmToast ref="confirmToastRef" />
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { Modal } from "bootstrap";
 import { useI18n } from "vue-i18n";
+import ConfirmToast from "@/components/plugins/ConfirmToast.vue";
 import MarketingCampaignWidget from "@/components/widgets/MarketingCampaign.vue";
 import SessionByLocationWidget from "@/components/widgets/SessionByLocation.vue";
 import TopProductsWidget from "@/components/widgets/TopProducts.vue";
@@ -177,6 +190,25 @@ const dashboardWidgets = computed(() => [
     colSpan: 3,
   },
 ]);
+
+const defaultLayout: (string | null)[] = [
+  "totalSales",
+  "conversionRate",
+  "storeSessions",
+  "visitorsAnalytics",
+  "sessionByLocation",
+  "salesBySocial",
+  "topProducts",
+  "marketingCampaign",
+];
+
+const confirmToastRef = ref<InstanceType<typeof ConfirmToast>>();
+const isDefaultLayout = ref(false);
+
+// Computed para los disabled
+const canSave = computed(() => layoutRow.value.length > 0);
+const canClear = computed(() => layoutRow.value.length > 0);
+const canRestore = computed(() => !isDefaultLayout.value);
 
 const availableWidgets = computed(() =>
   dashboardWidgets.value.filter((w) => !layoutRow.value.includes(w.id))
@@ -264,12 +296,36 @@ const addSelectedWidget = () => {
 };
 
 const saveLayout = () => {
-  localStorage.setItem("dashboardLayout", JSON.stringify(layoutRow.value));
+  if (!layoutRow.value.length) return; // Por si alguien fuerza el botón
+  confirmToastRef.value?.show(
+    t("dashboard.alertMessages.saveLayoutAlert"),
+    () => {
+      localStorage.setItem("dashboardLayout", JSON.stringify(layoutRow.value));
+      isDefaultLayout.value = false;
+      console.log("✅ Layout guardado");
+    },
+    () => {
+      console.log("❌ Cancelado guardado");
+    },
+    "success"
+  );
 };
 
 const clearLayout = () => {
-  layoutRow.value = [];
-  localStorage.removeItem("dashboardLayout");
+  if (!layoutRow.value.length) return;
+  confirmToastRef.value?.show(
+    t("dashboard.alertMessages.clearLayoutAlert"),
+    () => {
+      layoutRow.value = [];
+      localStorage.removeItem("dashboardLayout");
+      isDefaultLayout.value = false;
+      console.log("ℹ️ Layout limpiado");
+    },
+    () => {
+      console.log("❌ Cancelado limpieza");
+    },
+    "warning"
+  );
 };
 
 const handleReload = (id: string) => {
@@ -280,11 +336,36 @@ const removeWidget = (i: number) => {
   layoutRow.value.splice(i, 1);
 };
 
+const restoreDefaultLayout = () => {
+  if (isDefaultLayout.value) return;
+  confirmToastRef.value?.show(
+    t("dashboard.alertMessages.restoreLayoutAlert"),
+    () => {
+      layoutRow.value = [...defaultLayout];
+      localStorage.setItem("dashboardLayout", JSON.stringify(layoutRow.value));
+      isDefaultLayout.value = true;
+      console.log("🔄 Layout restaurado");
+    },
+    () => {
+      console.log("❌ Cancelado restaurar");
+    },
+    "info"
+  );
+};
+
+const checkIfDefaultLayout = () => {
+  isDefaultLayout.value =
+    JSON.stringify(layoutRow.value) === JSON.stringify(defaultLayout);
+};
+
 onMounted(() => {
   const saved = localStorage.getItem("dashboardLayout");
   if (saved) {
     layoutRow.value = JSON.parse(saved);
+  } else {
+    layoutRow.value = [...defaultLayout];
   }
+  checkIfDefaultLayout();
 });
 </script>
 

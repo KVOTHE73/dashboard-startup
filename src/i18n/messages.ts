@@ -49,10 +49,21 @@ const messages = {
       navigation: "Navegación",
       dashboard: "Panel de control",
     },
+    confirmToast: {
+      btnConfirm: "Confirmar",
+      btnCancel: "Cancelar",
+    },
     dashboard: {
       add: "Añadir widget",
       save: "Guardar diseño",
       clear: "Eliminar diseño",
+      restoreDefault: "Restaurar diseño por defecto",
+      alertMessages: {
+        saveLayoutAlert: "¿Seguro que quieres guardar el diseño actual?",
+        clearLayoutAlert: "¿Seguro que quieres eliminar el diseño actual?",
+        restoreDefaultAlert:
+          "¿Seguro que quieres restaurar el diseño por defecto?",
+      },
       widgetsModal: {
         title: "Seleccionar widget",
         widgetSelect: "Selecciona un widget",
@@ -171,6 +182,10 @@ const messages = {
       clearAll: "Clear all notifications",
       seeMore: "See more",
     },
+    confirmToast: {
+      btnConfirm: "Confirm",
+      btnCancel: "Cancel",
+    },
     themePanel: {
       colorAdjustment: "Colors adjustment",
       darkMode: "Dark mode",
@@ -193,6 +208,13 @@ const messages = {
       add: "Add widget",
       save: "Save layout",
       clear: "Clear layout",
+      restoreDefault: "Restore default layout",
+      alertMessages: {
+        saveLayoutAlert: "Are you sure you want to save the current layout?",
+        clearLayoutAlert: "Are you sure you want to clear the current layout?",
+        restoreDefaultAlert:
+          "Are you sure you want to restore the default layout?",
+      },
       widgetsModal: {
         title: "Widget select",
         widgetSelect: "Select a widget",
