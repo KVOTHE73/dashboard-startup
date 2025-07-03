@@ -58,7 +58,8 @@ const handleReject = () => {
 defineExpose({ show });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "../../scss/vue.scss";
 .toast-container {
   position: fixed;
   left: 50%;
@@ -81,20 +82,20 @@ defineExpose({ show });
 
 /* Variantes */
 .toast-inner.success {
-  background: #198754;
+  background: $success;
 }
 
 .toast-inner.error {
-  background: #dc3545;
+  background: $danger;
 }
 
 .toast-inner.warning {
-  background: #ffc107;
+  background: $warning;
   color: #212529;
 }
 
 .toast-inner.info {
-  background: #0d6efd;
+  background: $primary;
 }
 
 .toast-message {

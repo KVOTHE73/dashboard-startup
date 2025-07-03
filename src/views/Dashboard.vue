@@ -136,6 +136,14 @@ import TotalSalesWidget from "@/components/widgets/TotalSales.vue";
 import VisitorsAnalyticsWidget from "@/components/widgets/VisitorsAnalytics.vue";
 import ConversionRate from "@/components/widgets/ConversionRate.vue";
 import StoreSessions from "@/components/widgets/StoreSessions.vue";
+import TotalVisitors from "@/components/widgets/TotalVisitors.vue";
+import BounceRate from "@/components/widgets/BounceRate.vue";
+import UniqueVisitors from "@/components/widgets/UniqueVisitors.vue";
+import AvgTimeSite from "@/components/widgets/AvgTimeSite.vue";
+import TodayVisits from "@/components/widgets/TodayVisits.vue";
+import TodayProfit from "@/components/widgets/TodayProfit.vue";
+import NewOrders from "@/components/widgets/NewOrders.vue";
+import NewComments from "@/components/widgets/NewComments.vue";
 
 // 🌐 i18n
 const { t } = useI18n();
@@ -189,9 +197,61 @@ const dashboardWidgets = computed(() => [
     tooltipContent: t("dashboard.widgets.storeSessions.tooltipContent"),
     colSpan: 3,
   },
+  {
+    id: "totalVisitors",
+    name: t("dashboard.widgets.totalVisitors.title"),
+    tooltipContent: t("dashboard.widgets.totalVisitors.tooltipContent"),
+    colSpan: 3,
+  },
+  {
+    id: "bounceRate",
+    name: t("dashboard.widgets.bounceRate.title"),
+    tooltipContent: t("dashboard.widgets.bounceRate.tooltipContent"),
+    colSpan: 3,
+  },
+  {
+    id: "uniqueVisitors",
+    name: t("dashboard.widgets.uniqueVisitors.title"),
+    tooltipContent: t("dashboard.widgets.uniqueVisitors.tooltipContent"),
+    colSpan: 3,
+  },
+  {
+    id: "avgTimeSite",
+    name: t("dashboard.widgets.avgTimeSite.title"),
+    tooltipContent: t("dashboard.widgets.avgTimeSite.tooltipContent"),
+    colSpan: 3,
+  },
+  {
+    id: "todayVisits",
+    name: t("dashboard.widgets.todayVisits.title"),
+    tooltipContent: t("dashboard.widgets.todayVisits.tooltipContent"),
+    colSpan: 3,
+  },
+  {
+    id: "todayProfit",
+    name: t("dashboard.widgets.todayProfit.title"),
+    tooltipContent: t("dashboard.widgets.todayProfit.tooltipContent"),
+    colSpan: 3,
+  },
+  {
+    id: "newOrders",
+    name: t("dashboard.widgets.newOrders.title"),
+    tooltipContent: t("dashboard.widgets.newOrders.tooltipContent"),
+    colSpan: 3,
+  },
+  {
+    id: "newComments",
+    name: t("dashboard.widgets.newComments.title"),
+    tooltipContent: t("dashboard.widgets.newComments.tooltipContent"),
+    colSpan: 3,
+  },
 ]);
 
 const defaultLayout: (string | null)[] = [
+  "totalVisitors",
+  "bounceRate",
+  "uniqueVisitors",
+  "avgTimeSite",
   "totalSales",
   "conversionRate",
   "storeSessions",
@@ -223,6 +283,14 @@ const componentsMap: Record<string, any> = {
   salesBySocial: SalesBySocialWidget,
   conversionRate: ConversionRate,
   storeSessions: StoreSessions,
+  totalVisitors: TotalVisitors,
+  bounceRate: BounceRate,
+  uniqueVisitors: UniqueVisitors,
+  avgTimeSite: AvgTimeSite,
+  todayVisits: TodayVisits,
+  todayProfit: TodayProfit,
+  newOrders: NewOrders,
+  newComments: NewComments,
 };
 
 const layoutRow = ref<(string | null)[]>([]);
@@ -339,7 +407,7 @@ const removeWidget = (i: number) => {
 const restoreDefaultLayout = () => {
   if (isDefaultLayout.value) return;
   confirmToastRef.value?.show(
-    t("dashboard.alertMessages.restoreLayoutAlert"),
+    t("dashboard.alertMessages.restoreDefaultAlert"),
     () => {
       layoutRow.value = [...defaultLayout];
       localStorage.setItem("dashboardLayout", JSON.stringify(layoutRow.value));
@@ -373,6 +441,7 @@ onMounted(() => {
 select {
   max-width: 100%;
 }
+
 .panel-body {
   padding: 0;
 }

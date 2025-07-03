@@ -7,7 +7,7 @@ Este proyecto forma parte de mi portfolio y está diseñado para mostrar una imp
 ![GitHub last commit](https://img.shields.io/github/last-commit/KVOTHE73/dashboard-startup)
 ![GitHub license](https://img.shields.io/github/license/KVOTHE73/dashboard-startup)
 
-![Vista del editor](./public/todolistPreview.png)
+![Vista del editor](./public/dashboardPreview.png)
 
 ---
 
