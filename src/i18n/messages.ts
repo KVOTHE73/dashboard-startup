@@ -75,7 +75,7 @@ const messages = {
           title: "CAMPAÑA DE MARKETING",
           tooltipTitle: "Campaña de Marketing",
           tooltipContent:
-            "Campaña que se ejecuta para conseguir más clientes recurrentes.",
+            "Campaña que se ejecuta para conseguir más clientes recurrentes",
           emailTitle: "Campaña de Email Marketing",
           fbTitle: "Campaña de Facebook Marketing",
           peopleClick: "personas hicieron clic en el correo",
@@ -86,7 +86,7 @@ const messages = {
           title: "VENTAS POR FUENTE SOCIAL",
           tooltipTitle: "Ventas por fuente social",
           tooltipContent:
-            "Ventas totales de la tienda online que provienen de un referente social.",
+            "Ventas totales de la tienda online que provienen de un referente social",
           increased: "de incremento",
           appleStore: "Apple Store",
           facebook: "Facebook",
@@ -98,14 +98,14 @@ const messages = {
           title: "PRODUCTOS MÁS VENDIDOS",
           tooltipTitle: "Productos más vendidos",
           tooltipContent:
-            "Productos con más unidades vendidas. Incluye pedidos de todos los canales de venta.",
+            "Productos con más unidades vendidas. Incluye pedidos de todos los canales de venta",
           soldLabel: "vendidos",
         },
         sessionByLocation: {
           title: "SESIONES POR UBICACIÓN",
           tooltipTitle: "Sesiones por ubicación",
           tooltipContent:
-            "Número de sesiones en tu tienda online. Una sesión es un período de actividad continua de un visitante.",
+            "Mapa de los 5 paises de p`rocedencia de los usuarios con más número de sesiones en la tienda. Una sesión es un período de actividad continua de un visitante",
           countries: {
             unitedStates: "Estados Unidos",
             china: "China",
@@ -117,7 +117,7 @@ const messages = {
         totalSales: {
           title: "VENTAS TOTALES",
           tooltipContent:
-            "Ventas netas (ventas brutas menos descuentos y devoluciones) más impuestos y envíos. Incluye pedidos de todos los canales de venta.",
+            "Ventas netas (ventas brutas menos descuentos y devoluciones) más impuestos y envíos. Incluye pedidos de todos los canales de venta",
           compareLastWeek: "comparado con la semana pasada",
           totalSalesOrder: "Total de ventas de pedidos",
           avgSalesPerOrder: "Ventas promedio por pedido",
@@ -125,7 +125,7 @@ const messages = {
         conversionRate: {
           title: "RATIOS DE CONVERSION",
           tooltipContent:
-            "Porcentaje de sesiones que resultaron en pedidos del número total de sesiones.",
+            "Porcentaje de sesiones que resultaron en pedidos del número total de sesiones",
           compareLastWeek: "comparado con la semana pasada",
           addedToCart: "Añadido al carrito",
           reachedeCheckout: "Alcanzó el pago",
@@ -134,7 +134,7 @@ const messages = {
         storeSessions: {
           title: "SESIONES DE LA TIENDA",
           tooltipContent:
-            "Número de sesiones en tu tienda online. Una sesión es un período de actividad continua de un visitante.",
+            "Número de sesiones en tu tienda online. Una sesión es un período de actividad continua de un visitante",
           compareLastWeek: "comparado con la semana pasada",
           mobile: "Móvil",
           desktop: "Escritorio",
@@ -311,7 +311,7 @@ const messages = {
           title: "SESSION BY LOCATION",
           tooltipTitle: "Session by location",
           tooltipContent:
-            "Number of sessions on your online store. A session is a period of continuous activity from a visitor.",
+            "Map of the top 5 countries of origin of users with the highest number of store sessions. A session is a period of continuous activity by a visitor.",
           countries: {
             unitedStates: "United States",
             china: "China",
