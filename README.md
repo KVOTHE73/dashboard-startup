@@ -1,10 +1,15 @@
 # 📘 dashboard_startup
 
 🔶 Un dashboard o panel de control configurable por el usuario construido con **Vue 3**.
+
 🔶 Permite utilizar vistas predefinidas o crear una propia añadiendo componentes de una lista y diseñando un dashboard personalizado.
+
 🔶 El diseño puede ser guardado y persistirá hasta que el usuario lo elimine.
+
 🔶 También poseé traducción en tiempo real, modo oscuro/claro, elección de colores base de una paleta y diversas configuraciones de la cabecera y barra de navegación a través de un panel de configuración lateral siempre accesible.
+
 🔶 La temática del dashboard es la visualización de las estadisticas de una hipotética página de e-commerce destinada a la venta de dispositivos móviles y tablets, mostrando ratios de venta, canales, usuarios, zonas de venta, mensajes, etc.
+
 🔶 Este proyecto forma parte de mi portfolio y está diseñado para mostrar una implementación profesional de un componente Vue autocontenible y desarrollado con fines exclusivamente didácticos.
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/KVOTHE73/dashboard-startup)
