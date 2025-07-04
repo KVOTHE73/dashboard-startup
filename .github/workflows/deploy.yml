@@ -3,16 +3,17 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Cambia si tu rama principal no es main
+      - main
 
 permissions:
-  contents: read
   pages: write
   id-token: write
+  contents: read
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,14 +29,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload dist to GitHub Pages
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           path: ./dist
 
   deploy:
-    needs: build-and-deploy
+    needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
