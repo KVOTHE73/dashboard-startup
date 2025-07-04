@@ -66,5 +66,5 @@ npm run dev
 
 🔗 Licencia: MIT
 
-📣 Puedes ver una demo en vivo aquí:
+📣 Puedes ver una demo del proyecto en vivo aquí:
 👉 https://kvothe73.github.io/dashboard-startup
