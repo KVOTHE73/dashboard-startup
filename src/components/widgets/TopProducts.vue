@@ -1,23 +1,38 @@
+<!--
+==============================================================================
+🔷 TOP PRODUCTS
+   💡 Widget que muestra los productos más vendidos:
+       🔹 Imagen y nombre del producto
+       🔹 Precio formateado según el idioma
+       🔹 Unidades vendidas (número animado)
+==============================================================================
+-->
 <template>
   <div class="card border-0 bg-gray-800 text-white border-radius-top">
     <div class="card-body">
+      <!-- 🔁 Listado de productos -->
       <div
-        v-for="product in products"
-        :key="product.name"
+        v-for="product in topProducts"
+        :key="product.id"
         class="d-flex align-items-center mb-15px"
       >
+        <!-- 🖼️ Imagen del producto -->
         <div class="widget-img rounded-3 me-10px bg-white p-3px w-30px">
           <div
             class="h-100 w-100"
             :style="`background: url(${product.image}) center no-repeat; background-size: auto 100%;`"
           ></div>
         </div>
+
+        <!-- 📦 Nombre y precio -->
         <div class="text-truncate">
           <div>{{ product.name }}</div>
           <div class="text-gray-500 text-start">
             {{ formatPrice(product.priceValue) }}
           </div>
         </div>
+
+        <!-- 🔢 Unidades vendidas -->
         <div class="ms-auto text-center">
           <div class="fs-13px">
             <span
@@ -37,45 +52,20 @@
 </template>
 
 <script setup lang="ts">
+// ⛳ Imports
 import { onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { animateNumber } from "@/components/app/AnimateNumber";
+import { useAPI } from "@/composables/useApiDummy";
 
+// ⛳ i18n
 const { t, locale } = useI18n();
 
-const products = [
-  {
-    name: "Apple iPhone XR (2025)",
-    priceValue: 799.0,
-    unitsSold: 195,
-    image: "/assets/img/product/product-8.jpg",
-  },
-  {
-    name: "Apple iPhone XS (2025)",
-    priceValue: 1199.0,
-    unitsSold: 185,
-    image: "/assets/img/product/product-9.jpg",
-  },
-  {
-    name: "Apple iPhone XS Pro Max (2025)",
-    priceValue: 1399.0,
-    unitsSold: 129,
-    image: "/assets/img/product/product-10.jpg",
-  },
-  {
-    name: "Huawei Y5 (2025)",
-    priceValue: 99.0,
-    unitsSold: 96,
-    image: "/assets/img/product/product-11.jpg",
-  },
-  {
-    name: "Huawei Nova 4 (2025)",
-    priceValue: 499.0,
-    unitsSold: 55,
-    image: "/assets/img/product/product-12.jpg",
-  },
-];
+// 📦 Acceso a datos desde la store vía composable
+const { getTopProducts, fetchTopProducts } = useAPI();
+const topProducts = getTopProducts;
 
+// 💱 Formateo de precio según idioma
 function formatPrice(value: number) {
   if (locale.value === "en") {
     return `$${value.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
@@ -85,7 +75,9 @@ function formatPrice(value: number) {
   return value.toString();
 }
 
-onMounted(() => {
+// 🔄 Ciclo de vida
+onMounted(async () => {
+  await fetchTopProducts();
   animateNumber(locale.value);
 });
 

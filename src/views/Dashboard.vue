@@ -1,6 +1,21 @@
+<!-- ============================================================================
+🔷 DASHBOARD
+   💡 Vista principal del panel de control:
+       🔹 Botones de control (añadir, guardar, limpiar, restaurar)
+       🔹 Widgets dinámicos insertables en filas
+       🔹 Modal selector de widgets
+       🔹 Soporte para layout persistente (localStorage)
+       🔹 Toast de confirmación para acciones críticas
+============================================================================ -->
+
 <template>
+  <!-- ============================================================================
+  🔘 BOTONES DE CONTROL
+     💡 Incluye botones para añadir, guardar, limpiar y restaurar layout
+  ============================================================================ -->
   <div class="position-relative text-center mb-3">
     <div class="d-inline-flex gap-2">
+      <!-- ➕ Añadir widget -->
       <button
         class="btn btn-theme rounded-circle"
         style="width: 40px; height: 40px; padding: 0"
@@ -10,6 +25,8 @@
       >
         <i class="fa fa-plus"></i>
       </button>
+
+      <!-- 💾 Guardar layout -->
       <button
         class="btn btn-primary rounded-circle"
         style="width: 40px; height: 40px; padding: 0"
@@ -19,6 +36,8 @@
       >
         <i class="fa fa-save"></i>
       </button>
+
+      <!-- 🗑️ Limpiar layout -->
       <button
         class="btn btn-danger rounded-circle"
         style="width: 40px; height: 40px; padding: 0"
@@ -28,6 +47,8 @@
       >
         <i class="fa fa-trash"></i>
       </button>
+
+      <!-- ♻️ Restaurar layout por defecto -->
       <button
         class="btn btn-secondary rounded-circle"
         style="width: 40px; height: 40px; padding: 0"
@@ -39,19 +60,24 @@
       </button>
     </div>
 
+    <!-- ============================================================================
+    📦 GRID DE WIDGETS
+       💡 Renderiza los widgets en base al layout actual
+    ============================================================================ -->
     <div class="row g-3 mt-3">
       <template v-for="(widgetId, i) in layoutRow" :key="i">
         <div v-if="widgetId" :class="`col-xl-${getWidgetCols(widgetId)}`">
           <panel>
             <panel-header>
-              <panel-title class="text-start"
-                >{{ getWidgetName(widgetId)
-                }}<span class="ms-2">
+              <panel-title class="text-start">
+                {{ getWidgetName(widgetId) }}
+                <span class="ms-2">
                   <i
                     class="fa fa-info-circle"
                     v-tooltip="getWidgettooltipContent(widgetId)"
-                  ></i> </span
-              ></panel-title>
+                  ></i>
+                </span>
+              </panel-title>
               <panel-toolbar
                 :can-remove="true"
                 @remove="() => removeWidget(i)"
@@ -59,6 +85,7 @@
               />
             </panel-header>
             <panel-body>
+              <!-- 🧩 Carga dinámica del componente -->
               <component
                 :is="componentsMap[widgetId]"
                 :key="reloadKeys[widgetId] || 0"
@@ -69,6 +96,10 @@
       </template>
     </div>
 
+    <!-- ============================================================================
+    🔍 MODAL DE SELECCIÓN DE WIDGETS
+       💡 Permite al usuario seleccionar e insertar nuevos widgets
+    ============================================================================ -->
     <div
       class="modal fade"
       id="widgetSelectorModal"
@@ -120,13 +151,21 @@
       </div>
     </div>
   </div>
+
+  <!-- ============================================================================
+  ✅ TOAST DE CONFIRMACIÓN GLOBAL
+     💡 Confirma acciones destructivas como limpiar, restaurar o guardar layout
+  ============================================================================ -->
   <ConfirmToast ref="confirmToastRef" />
 </template>
 
 <script setup lang="ts">
+// ⛳ Imports
 import { ref, computed, onMounted } from "vue";
 import { Modal } from "bootstrap";
 import { useI18n } from "vue-i18n";
+
+// 📦 Componentes
 import ConfirmToast from "@/components/plugins/ConfirmToast.vue";
 import MarketingCampaignWidget from "@/components/widgets/MarketingCampaign.vue";
 import SessionByLocationWidget from "@/components/widgets/SessionByLocation.vue";
@@ -148,6 +187,32 @@ import NewComments from "@/components/widgets/NewComments.vue";
 // 🌐 i18n
 const { t } = useI18n();
 
+// 📁 Estado general
+const confirmToastRef = ref<InstanceType<typeof ConfirmToast>>();
+const isDefaultLayout = ref(false);
+const layoutRow = ref<(string | null)[]>([]);
+const selectedWidget = ref("");
+const reloadKeys = ref<Record<string, number>>({});
+const modalRef = ref<HTMLElement | null>(null);
+let modalInstance: Modal | null = null;
+
+// 📁 Layout por defecto
+const defaultLayout: (string | null)[] = [
+  "totalVisitors",
+  "bounceRate",
+  "uniqueVisitors",
+  "avgTimeSite",
+  "totalSales",
+  "conversionRate",
+  "storeSessions",
+  "visitorsAnalytics",
+  "sessionByLocation",
+  "salesBySocial",
+  "topProducts",
+  "marketingCampaign",
+];
+
+// 🧩 Widgets disponibles (configuración)
 const dashboardWidgets = computed(() => [
   {
     id: "totalSales",
@@ -247,33 +312,7 @@ const dashboardWidgets = computed(() => [
   },
 ]);
 
-const defaultLayout: (string | null)[] = [
-  "totalVisitors",
-  "bounceRate",
-  "uniqueVisitors",
-  "avgTimeSite",
-  "totalSales",
-  "conversionRate",
-  "storeSessions",
-  "visitorsAnalytics",
-  "sessionByLocation",
-  "salesBySocial",
-  "topProducts",
-  "marketingCampaign",
-];
-
-const confirmToastRef = ref<InstanceType<typeof ConfirmToast>>();
-const isDefaultLayout = ref(false);
-
-// Computed para los disabled
-const canSave = computed(() => layoutRow.value.length > 0);
-const canClear = computed(() => layoutRow.value.length > 0);
-const canRestore = computed(() => !isDefaultLayout.value);
-
-const availableWidgets = computed(() =>
-  dashboardWidgets.value.filter((w) => !layoutRow.value.includes(w.id))
-);
-
+// 🧩 Mapeo de ID a componentes
 const componentsMap: Record<string, any> = {
   totalSales: TotalSalesWidget,
   visitorsAnalytics: VisitorsAnalyticsWidget,
@@ -293,30 +332,26 @@ const componentsMap: Record<string, any> = {
   newComments: NewComments,
 };
 
-const layoutRow = ref<(string | null)[]>([]);
-const selectedWidget = ref("");
-const reloadKeys = ref<Record<string, number>>({});
-const modalRef = ref<HTMLElement | null>(null);
-let modalInstance: Modal | null = null;
+// 🧮 Computeds
+const canSave = computed(() => layoutRow.value.length > 0);
+const canClear = computed(() => layoutRow.value.length > 0);
+const canRestore = computed(() => !isDefaultLayout.value);
+const availableWidgets = computed(() =>
+  dashboardWidgets.value.filter((w) => !layoutRow.value.includes(w.id))
+);
 
-const getWidgetCols = (id: string): number => {
-  return dashboardWidgets.value.find((w) => w.id === id)?.colSpan || 3;
-};
+// 🔧 Métodos auxiliares
+const getWidgetCols = (id: string) =>
+  dashboardWidgets.value.find((w) => w.id === id)?.colSpan || 3;
+const getWidgetName = (id: string) =>
+  dashboardWidgets.value.find((w) => w.id === id)?.name || "Widget";
+const getWidgettooltipContent = (id: string) =>
+  dashboardWidgets.value.find((w) => w.id === id)?.tooltipContent || "Widget";
 
-const getWidgetName = (id: string): string => {
-  return dashboardWidgets.value.find((w) => w.id === id)?.name || "Widget";
-};
-
-const getWidgettooltipContent = (id: string): string => {
-  return (
-    dashboardWidgets.value.find((w) => w.id === id)?.tooltipContent || "Widget"
-  );
-};
-
+// ⚙️ Control de modal
 const openWidgetSelector = () => {
-  if (!modalInstance && modalRef.value) {
+  if (!modalInstance && modalRef.value)
     modalInstance = new Modal(modalRef.value);
-  }
   selectedWidget.value = "";
   modalInstance?.show();
 };
@@ -325,7 +360,6 @@ const addSelectedWidget = () => {
   if (!selectedWidget.value) return;
   const colsNeeded = getWidgetCols(selectedWidget.value);
 
-  // Agrupar los widgets en filas y encontrar un hueco
   let rows: string[][] = [];
   let currentRow: string[] = [];
   let currentCols = 0;
@@ -344,12 +378,10 @@ const addSelectedWidget = () => {
   }
   if (currentRow.length) rows.push(currentRow);
 
-  // Buscar en filas existentes
   for (let rowIndex = 0, index = 0; rowIndex < rows.length; rowIndex++) {
     const row = rows[rowIndex];
     const rowCols = row.reduce((sum, w) => sum + getWidgetCols(w), 0);
     if (rowCols + colsNeeded <= 12) {
-      // Insertar al final de esta fila
       let insertAt = index + row.length;
       layoutRow.value.splice(insertAt, 0, selectedWidget.value);
       modalInstance?.hide();
@@ -358,13 +390,13 @@ const addSelectedWidget = () => {
     index += row.length;
   }
 
-  // Si no hay hueco, añadir al final como nueva fila
   layoutRow.value.push(selectedWidget.value);
   modalInstance?.hide();
 };
 
+// 🔧 Funciones de acción
 const saveLayout = () => {
-  if (!layoutRow.value.length) return; // Por si alguien fuerza el botón
+  if (!layoutRow.value.length) return;
   confirmToastRef.value?.show(
     t("dashboard.alertMessages.saveLayoutAlert"),
     () => {
@@ -372,9 +404,7 @@ const saveLayout = () => {
       isDefaultLayout.value = false;
       console.log("✅ Layout guardado");
     },
-    () => {
-      console.log("❌ Cancelado guardado");
-    },
+    () => console.log("❌ Cancelado guardado"),
     "success"
   );
 };
@@ -389,19 +419,9 @@ const clearLayout = () => {
       isDefaultLayout.value = false;
       console.log("ℹ️ Layout limpiado");
     },
-    () => {
-      console.log("❌ Cancelado limpieza");
-    },
+    () => console.log("❌ Cancelado limpieza"),
     "warning"
   );
-};
-
-const handleReload = (id: string) => {
-  reloadKeys.value[id] = (reloadKeys.value[id] || 0) + 1;
-};
-
-const removeWidget = (i: number) => {
-  layoutRow.value.splice(i, 1);
 };
 
 const restoreDefaultLayout = () => {
@@ -414,34 +434,33 @@ const restoreDefaultLayout = () => {
       isDefaultLayout.value = true;
       console.log("🔄 Layout restaurado");
     },
-    () => {
-      console.log("❌ Cancelado restaurar");
-    },
+    () => console.log("❌ Cancelado restaurar"),
     "info"
   );
 };
 
-const checkIfDefaultLayout = () => {
-  isDefaultLayout.value =
-    JSON.stringify(layoutRow.value) === JSON.stringify(defaultLayout);
-};
+const removeWidget = (i: number) => layoutRow.value.splice(i, 1);
+const handleReload = (id: string) =>
+  (reloadKeys.value[id] = (reloadKeys.value[id] || 0) + 1);
+const checkIfDefaultLayout = () =>
+  (isDefaultLayout.value =
+    JSON.stringify(layoutRow.value) === JSON.stringify(defaultLayout));
 
+// 🔄 Ciclo de vida
 onMounted(() => {
   const saved = localStorage.getItem("dashboardLayout");
-  if (saved) {
-    layoutRow.value = JSON.parse(saved);
-  } else {
-    layoutRow.value = [...defaultLayout];
-  }
+  layoutRow.value = saved ? JSON.parse(saved) : [...defaultLayout];
   checkIfDefaultLayout();
 });
 </script>
 
 <style scoped>
+/* 🎨 Estilo del selector */
 select {
   max-width: 100%;
 }
 
+/* 🎨 Ajuste visual del cuerpo del panel */
 .panel-body {
   padding: 0;
 }

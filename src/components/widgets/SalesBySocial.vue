@@ -1,6 +1,19 @@
+<!--
+==============================================================================
+🔷 SALES BY SOCIAL
+   💡 Widget que muestra el total de ventas por canal social (mock):
+       🔹 Monto total animado
+       🔹 Porcentaje de incremento
+       🔹 Listado de canales con sus ventas individuales
+==============================================================================
+
+📌 NOTA: Este widget usa datos estáticos locales porque no existe un endpoint en DummyJSON
+⚠️ No se accede a la store ni al backend
+-->
+
 <template>
   <div class="card border-0 bg-gray-900 text-white border-radius-top">
-    <!-- Card Body -->
+    <!-- 🔸 Contenedor principal con imagen decorativa -->
     <div
       class="card-body"
       style="
@@ -9,24 +22,30 @@
         background-size: auto 80%;
       "
     >
+      <!-- 🔸 Total de ventas (animado) -->
       <h3 class="text-start">
         <span
           data-animation="number"
           data-format="currency"
-          :data-value="55547.89"
+          :data-value="totalSales"
           >0.00</span
         >
       </h3>
+
+      <!-- 🔸 Porcentaje de incremento (animado) -->
       <div class="text-gray-500 text-start">
         <i class="fa fa-caret-up"></i>
-        <span data-animation="number" data-format="decimal" :data-value="45.76"
+        <span
+          data-animation="number"
+          data-format="decimal"
+          :data-value="increasePercent"
           >0.00</span
         >%
         {{ t("dashboard.widgets.salesBySocial.increased") }}
       </div>
     </div>
 
-    <!-- List -->
+    <!-- 🔸 Lista de fuentes sociales -->
     <div class="widget-list rounded-bottom" data-bs-theme="dark">
       <a
         v-for="source in sources"
@@ -58,12 +77,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from "vue";
+// ⛳ Imports
+import { onMounted, watch, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { animateNumber } from "@/components/app/AnimateNumber";
 
+// ⛳ i18n
 const { t, locale } = useI18n();
 
+// 📊 Datos estáticos (mock)
 const sources = [
   {
     nameKey: "dashboard.widgets.salesBySocial.appleStore",
@@ -102,13 +124,15 @@ const sources = [
   },
 ];
 
-onMounted(() => {
-  animateNumber(locale.value);
-});
+// 📊 Total de ventas (sumatoria)
+const totalSales = computed(() => sources.reduce((sum, s) => sum + s.value, 0));
 
-watch(locale, () => {
-  animateNumber(locale.value);
-});
+// 📈 Porcentaje de incremento (mock aleatorio entre 30-60%)
+const increasePercent = computed(() => +(30 + Math.random() * 30).toFixed(2));
+
+// 🔄 Animación en montaje y cambio de idioma
+onMounted(() => animateNumber(locale.value));
+watch(locale, () => animateNumber(locale.value));
 </script>
 
 <style scoped>

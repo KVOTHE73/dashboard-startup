@@ -1,15 +1,28 @@
+<!--
+==============================================================================
+🔷 VISITORS ANALYTICS
+   💡 Muestra visitantes nuevos, recurrentes y vistas de página:
+       🔹 KPI numéricos animados
+       🔹 Gráfica comparativa: visitas únicas vs page views
+==============================================================================
+-->
 <template>
-  <div class="card border-0 bg-gray-800 text-white border-radius-top">
+  <div
+    v-if="visitorsData"
+    class="card border-0 bg-gray-800 text-white border-radius-top"
+  >
     <div class="card-body mb-3">
       <div class="row">
+        <!-- 🔷 New Visitors -->
         <div class="col-xl-3 col-4">
           <h3 class="mb-1">
             <span
               data-animation="number"
-              data-format="decimal"
-              data-value="127.1"
+              :data-format="formatType(visitorsData?.newVisitors)"
+              :data-value="formatValue(visitorsData?.newVisitors)"
               >0</span
-            >K
+            >
+            <span v-if="showK(visitorsData?.newVisitors)">K</span>
           </h3>
           <div>{{ t("dashboard.widgets.visitorsAnalytics.newVisitors") }}</div>
           <div class="text-gray-500 small text-truncate">
@@ -17,20 +30,23 @@
             <span
               data-animation="number"
               data-format="decimal"
-              data-value="25.5"
+              :data-value="visitorsData?.newVisitors || 0"
               >0.00</span
             >%
             {{ t("dashboard.widgets.visitorsAnalytics.fromPrevious") }}
           </div>
         </div>
+
+        <!-- 🟧 Returning Visitors -->
         <div class="col-xl-3 col-4">
           <h3 class="mb-1">
             <span
               data-animation="number"
-              data-format="decimal"
-              data-value="179.9"
+              :data-format="formatType(visitorsData?.returningVisitors)"
+              :data-value="formatValue(visitorsData?.returningVisitors)"
               >0</span
-            >K
+            >
+            <span v-if="showK(visitorsData?.returningVisitors)">K</span>
           </h3>
           <div>
             {{ t("dashboard.widgets.visitorsAnalytics.returningVisitors") }}
@@ -40,20 +56,23 @@
             <span
               data-animation="number"
               data-format="decimal"
-              data-value="5.33"
+              :data-value="visitorsData?.returningVisitors || 0"
               >0.00</span
             >%
             {{ t("dashboard.widgets.visitorsAnalytics.fromPrevious") }}
           </div>
         </div>
+
+        <!-- 🔶 Page Views -->
         <div class="col-xl-3 col-4">
           <h3 class="mb-1">
             <span
               data-animation="number"
-              data-format="decimal"
-              data-value="766.8"
+              :data-format="formatType(visitorsData?.pageViews)"
+              :data-value="formatValue(visitorsData?.pageViews)"
               >0</span
-            >K
+            >
+            <span v-if="showK(visitorsData?.pageViews)">K</span>
           </h3>
           <div>{{ t("dashboard.widgets.visitorsAnalytics.pageViews") }}</div>
           <div class="text-gray-500 small text-truncate">
@@ -61,7 +80,7 @@
             <span
               data-animation="number"
               data-format="decimal"
-              data-value="0.323"
+              :data-value="visitorsData?.pageViews || 0"
               >0.00</span
             >%
             {{ t("dashboard.widgets.visitorsAnalytics.fromPrevious") }}
@@ -69,114 +88,113 @@
         </div>
       </div>
     </div>
+
+    <!-- 📊 Chart -->
     <div class="card-body pe-3 ps-0 py-0">
       <div class="ms-n3 me-2">
         <ApexChart
           type="bar"
           width="100%"
           height="252"
-          :options="visitor.chart.options"
-          :series="visitor.chart.series"
+          :options="chartOptions"
+          :series="chartSeries"
         />
       </div>
     </div>
   </div>
+
+  <!-- 🕓 Placeholder si no hay datos -->
+  <div v-else class="text-white p-3">Cargando analítica de visitantes...</div>
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, watch } from "vue";
+// ⛳ Imports
+import { computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { animateNumber } from "@/components/app/AnimateNumber";
 import ApexChart from "vue3-apexcharts";
 import { useAppVariableStore } from "@/stores/app-variable";
+import { useAPI } from "@/composables/useApiDummy";
 
+// 📁 Stores y datos
 const { t, locale } = useI18n();
 const appVariable = useAppVariableStore();
+const { getVisitorsAnalytics, fetchVisitorsAnalytics } = useAPI();
+const visitorsData = getVisitorsAnalytics;
 
-const visitor = reactive(getVisitorData());
-
-function getVisitorData() {
-  return {
-    chart: {
-      series: [
-        {
-          name: t("dashboard.widgets.visitorsAnalytics.uniqueVisitors"),
-          data: [
-            [new Date().setDate(new Date().getDate() - 6), 10],
-            [new Date().setDate(new Date().getDate() - 5), 12],
-            [new Date().setDate(new Date().getDate() - 4), 14],
-            [new Date().setDate(new Date().getDate() - 3), 11],
-            [new Date().setDate(new Date().getDate() - 2), 15],
-            [new Date().setDate(new Date().getDate() - 1), 13],
-            [new Date().getTime(), 16],
-          ],
-        },
-        {
-          name: t("dashboard.widgets.visitorsAnalytics.pageViews"),
-          data: [
-            [new Date().setDate(new Date().getDate() - 6), 20],
-            [new Date().setDate(new Date().getDate() - 5), 25],
-            [new Date().setDate(new Date().getDate() - 4), 23],
-            [new Date().setDate(new Date().getDate() - 3), 27],
-            [new Date().setDate(new Date().getDate() - 2), 26],
-            [new Date().setDate(new Date().getDate() - 1), 28],
-            [new Date().getTime(), 30],
-          ],
-        },
-      ],
-      options: {
-        colors: [appVariable.color.teal, appVariable.color.blue],
-        fill: {
-          opacity: 0.75,
-          type: "solid",
-        },
-        legend: {
-          position: "top",
-          horizontalAlign: "right",
-          labels: { colors: appVariable.color.white },
-        },
-        xaxis: {
-          type: "datetime",
-          tickAmount: 6,
-          labels: { style: { colors: appVariable.color.white } },
-        },
-        yaxis: {
-          labels: { style: { colors: appVariable.color.white } },
-        },
-        tooltip: {
-          y: { formatter: (val: number) => `$ ${val} thousands` },
-        },
-        chart: {
-          height: "100%",
-          type: "area",
-          toolbar: { show: false },
-          stacked: true,
-        },
-        grid: {
-          show: true,
-          borderColor: `rgba(${appVariable.color.whiteRgb}, .15)`,
-          xaxis: { lines: { show: true } },
-          yaxis: { lines: { show: true } },
-          padding: { top: -40, right: 3, bottom: 0, left: 10 },
-        },
-        stroke: { show: false, curve: "straight" },
-      },
+// 🧮 Computed: formato de gráfica
+const chartSeries = computed(() => {
+  const data = visitorsData.value;
+  if (!data || !data.chartData) return [];
+  return [
+    {
+      name: t("dashboard.widgets.visitorsAnalytics.uniqueVisitors"),
+      data: data.chartData.uniqueVisitors,
     },
-  };
+    {
+      name: t("dashboard.widgets.visitorsAnalytics.pageViews"),
+      data: data.chartData.pageViews,
+    },
+  ];
+});
+
+const chartOptions = computed(() => ({
+  colors: [appVariable.color.teal, appVariable.color.blue],
+  fill: {
+    opacity: 0.75,
+    type: "solid",
+  },
+  legend: {
+    position: "top",
+    horizontalAlign: "right",
+    labels: { colors: appVariable.color.white },
+  },
+  xaxis: {
+    type: "datetime",
+    tickAmount: 6,
+    labels: { style: { colors: appVariable.color.white } },
+  },
+  yaxis: {
+    labels: { style: { colors: appVariable.color.white } },
+  },
+  tooltip: {
+    y: { formatter: (val: number) => `$ ${val} thousands` },
+  },
+  chart: {
+    height: "100%",
+    type: "area",
+    toolbar: { show: false },
+    stacked: true,
+  },
+  grid: {
+    show: true,
+    borderColor: `rgba(${appVariable.color.whiteRgb}, .15)`,
+    xaxis: { lines: { show: true } },
+    yaxis: { lines: { show: true } },
+    padding: { top: -40, right: 3, bottom: 0, left: 10 },
+  },
+  stroke: { show: false, curve: "straight" },
+}));
+
+// 🔧 Utilidades de formato
+function formatType(value?: number) {
+  return value && value >= 1000 ? "decimal" : "integer";
+}
+function formatValue(value?: number) {
+  return value && value >= 1000 ? value / 1000 : value || 0;
+}
+function showK(value?: number) {
+  return value !== undefined && value >= 1000;
 }
 
-onMounted(() => {
+// 🔄 Ciclo de vida
+onMounted(async () => {
+  await fetchVisitorsAnalytics();
   animateNumber(locale.value);
 });
 
 watch(locale, () => {
   animateNumber(locale.value);
-  visitor.chart.series[0].name = t(
-    "dashboard.widgets.visitorsAnalytics.uniqueVisitors"
-  );
-  visitor.chart.series[1].name = t(
-    "dashboard.widgets.visitorsAnalytics.pageViews"
-  );
 });
 </script>
 

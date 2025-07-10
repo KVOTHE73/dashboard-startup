@@ -1,9 +1,23 @@
+<!--
+==============================================================================
+🔷 STORESESSIONS
+   💡 Widget que muestra sesiones totales en tienda:
+       🔹 Valor total de sesiones animado
+       🔹 Mini gráfico de tendencia (ApexChart)
+       🔹 Porcentaje de crecimiento semanal
+       🔹 Sesiones por dispositivo: móvil, escritorio y tablet
+==============================================================================
+
+📌 NOTA: Este widget usa datos estáticos locales porque no existe un endpoint en DummyJSON
+⚠️ No se accede a la store ni al backend
+-->
+
 <template>
   <div
     class="card border-0 text-truncate bg-gray-800 text-white border-radius-top"
   >
     <div class="card-body mb-3">
-      <!-- Total sesiones + gráfica -->
+      <!-- 🔹 Total sesiones + gráfico -->
       <div class="d-flex align-items-center mb-1">
         <h2 class="text-white mb-0">
           <span
@@ -24,7 +38,7 @@
         </div>
       </div>
 
-      <!-- Comparativa semana anterior -->
+      <!-- 🔹 Comparativa con la semana pasada -->
       <div class="mb-3 text-gray-500 text-start w-auto">
         <i class="fa fa-caret-up"></i>
         <span data-animation="number" data-format="decimal" data-value="9.5"
@@ -33,7 +47,7 @@
         {{ t("dashboard.widgets.storeSessions.compareLastWeek") }}
       </div>
 
-      <!-- Mobile -->
+      <!-- 🔹 Mobile -->
       <div class="d-flex mb-2">
         <div class="d-flex align-items-center">
           <i class="fa fa-circle text-teal fs-8px me-2"></i>
@@ -60,7 +74,7 @@
         </div>
       </div>
 
-      <!-- Desktop -->
+      <!-- 🔹 Desktop -->
       <div class="d-flex mb-2">
         <div class="d-flex align-items-center">
           <i class="fa fa-circle text-blue fs-8px me-2"></i>
@@ -87,7 +101,7 @@
         </div>
       </div>
 
-      <!-- Tablet -->
+      <!-- 🔹 Tablet -->
       <div class="d-flex">
         <div class="d-flex align-items-center">
           <i class="fa fa-circle text-cyan fs-8px me-2"></i>
@@ -115,18 +129,27 @@
 </template>
 
 <script setup lang="ts">
+// ⛳ Imports
 import { reactive, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import ApexChart from "vue3-apexcharts";
 import { animateNumber } from "@/components/app/AnimateNumber";
 import { useAppVariableStore } from "@/stores/app-variable";
 
+// 🌐 i18n
 const { t, locale } = useI18n();
+
+// 🎨 Colores del tema
 const appVariable = useAppVariableStore();
 
+// 📊 Datos simulados del gráfico de sesiones
 const session = reactive({
   chart: {
-    series: [{ data: [65000, 67000, 62000, 60000, 61000, 60500, 70719] }],
+    series: [
+      {
+        data: [65000, 67000, 62000, 60000, 61000, 60500, 70719],
+      },
+    ],
     options: {
       chart: {
         type: "line",
@@ -134,7 +157,10 @@ const session = reactive({
         height: 28,
         sparkline: { enabled: true },
       },
-      stroke: { curve: "smooth", width: 3 },
+      stroke: {
+        curve: "smooth",
+        width: 3,
+      },
       fill: {
         type: "gradient",
         gradient: {
@@ -164,6 +190,7 @@ const session = reactive({
   },
 });
 
+// 🔄 Animaciones
 onMounted(() => {
   animateNumber(locale.value);
 });

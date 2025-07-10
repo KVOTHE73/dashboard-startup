@@ -182,7 +182,7 @@ const messages = {
           tooltipContent:
             "Número de visitas que ha recibido el sitio web hasta ahora en el día de hoy",
           subTitle: "Todo tipo de usuarios",
-          footer: "Mejor que la semana pasada (70.1%)",
+          footer: "Mejor que en el día de ayer (70.1%)",
         },
         todayProfit: {
           title: "BENEFICIO DE HOY",
@@ -196,14 +196,16 @@ const messages = {
           tooltipContent:
             "Cantidad total de pedidos obtenidos desde la página durante el día de hoy",
           subTitle: "Recibidos de todo tipo de usuarios",
-          footer: "Mejor que la semana pasada (76.3%)",
+          footerDown: "Peor que la semana pasada",
+          footerUp: "Mejor que la semana pasada",
         },
         newComments: {
           title: "NUEVOS COMENTARIOS",
           tooltipContent:
             "Cantidad total de comentarios escritos en la página durante el día de hoy",
           subTitle: "Recibidos de usuarios registrados",
-          footer: "Peor que la semana pasada (54.9%)",
+          footerDown: "Peor que la semana pasada",
+          footerUp: "Mejor que la semana pasada",
         },
       },
     },
@@ -387,7 +389,7 @@ const messages = {
           tooltipContent:
             "Number of visits the website has received so far today",
           subTitle: "All kind of users",
-          footer: "Better than last week (70.1%)",
+          footer: "Better than yesterday (70.1%)",
         },
         todayProfit: {
           title: "TODAY'S PROFIT",
@@ -401,14 +403,16 @@ const messages = {
           tooltipContent:
             "Total number of orders received through the site so far today",
           subTitle: "Received from all types of users",
-          footer: "Better than last week (76.3%)",
+          footerDown: "Worse than last week",
+          footerUp: "Better than last week",
         },
         newComments: {
           title: "NEW COMMENTS",
           tooltipContent:
             "Total number of comments posted on the site so far today",
           subTitle: "Received from registered users",
-          footer: "Worse than last week (54.9%)",
+          footerDown: "Worse than last week",
+          footerUp: "Better than last week",
         },
       },
     },

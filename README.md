@@ -1,12 +1,12 @@
 # 📘 dashboard_startup
 
-🔶 Un dashboard o panel de control configurable por el usuario construido con **Vue 3**.
+🔶 Un dashboard o panel de control configurable por el usuario construido con **Vue 3**, **TypeScript** y datos reales obtenidos desde la API pública de DummyJSON.
 
-🔶 Permite utilizar vistas predefinidas o crear una propia añadiendo componentes de una lista y diseñando un dashboard personalizado.
+🔶 Permite crear un panel personalizado añadiendo componentes (widgets) de una lista configurable, basados en métricas y datos reales de productos, usuarios y pedidos simulados.
 
-🔶 El diseño puede ser guardado y persistirá hasta que el usuario lo elimine.
+🔶 La configuración es totalmente persistente, con guardado automático del layout personalizado por el usuario.
 
-🔶 También poseé traducción en tiempo real, modo oscuro/claro, elección de colores base de una paleta y diversas configuraciones de la cabecera y barra de navegación a través de un panel de configuración lateral siempre accesible.
+🔶 Incluye traducción en tiempo real, modo claro/oscuro, selector de color base, y configuración de cabecera y sidebar mediante un panel lateral siempre accesible.
 
 🔶 La temática del dashboard es la visualización de las estadisticas de una hipotética página de e-commerce destinada a la venta de dispositivos móviles y tablets, mostrando ratios de venta, canales, usuarios, zonas de venta, mensajes, etc.
 
@@ -24,8 +24,24 @@
 
 - [Vue 3](https://vuejs.org/) + Composition API
 - [Typescript](https://www.typescriptlang.org/) — Javascript superset
+- [DummyJSON API](https://dummyjson.com/) — Datos simulados de ecommerce: productos, usuarios, pedidos
+- [SASS](https://sass-lang.com/) - Preprocesador de CSS
 - [vue-i18n](https://github.com/intlify/vue-i18n-next) — Sistema de traducciones dinámico
 - [localStorage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) — Persistencia de datos
+
+---
+
+## 📡 API utilizada
+
+💡 Los datos provienen de la API DummyJSON, incluyendo:
+
+📦 Productos (/products)
+
+🛒 Pedidos (/carts)
+
+👥 Usuarios (/users)
+
+📝 Comentarios (/products/:id/reviews)
 
 ---
 
@@ -61,6 +77,12 @@ src/
 │   └── flags/                  # Banderas de idiomas
 ├── i18n/
 │   └── messages.ts             # Textos de la aplicación en español e inglés para cambio de idioma
+├── services/
+│   └── endpoints.ts            # Endpoints de peticiones de servicios a la API DummyJSON
+├── stores/
+│   └── dummyStore.vue          # Store para las peticiones a la API DummyJSON
+├── composables/
+│   └── useApiDummy.ts          # Consumo de la store y tratamiento de datos devueltos por la API DummyJSON
 ├── App.vue                     # Componente raíz
 ├── main.ts                     # Punto de entrada
 └── ...
@@ -83,7 +105,7 @@ src/
 
 - `template`: Vista con header, sidebar y panel de configuración
 - `script setup`: Lógica clara, organizada por bloques funcionales
-- `style`: Completamente comentado y contenido en el propio archivo
+- `style`: Scoped y documentado. Incluye SASS para personalización
 - ✅ No requiere ningún CSS externo adicional
 
 ---
