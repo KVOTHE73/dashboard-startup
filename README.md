@@ -1,4 +1,4 @@
-# 📘 dashboard_startup
+# 📘 Dashboard Startup
 
 🔶 Un dashboard o panel de control configurable por el usuario construido con **Vue 3**, **TypeScript** y datos reales obtenidos desde la API pública de DummyJSON.
 
@@ -80,7 +80,7 @@ src/
 ├── services/
 │   └── endpoints.ts            # Endpoints de peticiones de servicios a la API DummyJSON
 ├── stores/
-│   └── dummyStore.vue          # Store para las peticiones a la API DummyJSON
+│   └── dummyStore.ts           # Store para las peticiones a la API DummyJSON
 ├── composables/
 │   └── useApiDummy.ts          # Consumo de la store y tratamiento de datos devueltos por la API DummyJSON
 ├── App.vue                     # Componente raíz
