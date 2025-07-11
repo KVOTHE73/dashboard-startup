@@ -154,7 +154,7 @@ npm install
 npm run dev
 ```
 
-📅 Metainformación
+## 📅 Metainformación
 
 📁 Proyecto: dashboard_startup
 
