@@ -16,7 +16,10 @@
       <!-- =========================================================================
       📨 CAMPAÑA DE EMAIL
       ========================================================================== -->
-      <div class="row align-items-center pb-1px mb-3">
+      <div
+        class="row align-items-center pb-1px mb-3"
+        data-testid="email-campaign"
+      >
         <!-- 🖼 Imagen ilustrativa -->
         <div class="col-4">
           <div class="h-100px d-flex align-items-center justify-content-center">
@@ -75,7 +78,7 @@
       <!-- =========================================================================
       📘 CAMPAÑA DE FACEBOOK
       ========================================================================== -->
-      <div class="row align-items-center mb-1">
+      <div class="row align-items-center mb-1" data-testid="fb-campaign">
         <!-- 🖼 Imagen ilustrativa -->
         <div class="col-4">
           <div class="h-100px d-flex align-items-center justify-content-center">

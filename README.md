@@ -1,5 +1,7 @@
 # 📘 Dashboard Startup
 
+[![CI](https://github.com/KVOTHE73/dashboard-startup/actions/workflows/ci.yml/badge.svg)](https://github.com/KVOTHE73/dashboard-startup/actions/workflows/ci.yml)
+
 🔶 Un dashboard o panel de control configurable por el usuario construido con **Vue 3**, **TypeScript** y datos reales obtenidos desde la API pública de DummyJSON.
 
 🔶 Permite crear un panel personalizado añadiendo componentes (widgets) de una lista configurable, basados en métricas y datos reales de productos, usuarios y pedidos simulados.
@@ -28,6 +30,7 @@
 - [SASS](https://sass-lang.com/) - Preprocesador de CSS
 - [vue-i18n](https://github.com/intlify/vue-i18n-next) — Sistema de traducciones dinámico
 - [localStorage API](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) — Persistencia de datos
+- [vitest](https://vitest.dev/) - Tests unitarios
 
 ---
 
@@ -83,6 +86,7 @@ src/
 │   └── dummyStore.ts           # Store para las peticiones a la API DummyJSON
 ├── composables/
 │   └── useApiDummy.ts          # Consumo de la store y tratamiento de datos devueltos por la API DummyJSON
+├── test/                       # Tests unitarios de la aplicación
 ├── App.vue                     # Componente raíz
 ├── main.ts                     # Punto de entrada
 └── ...
@@ -107,6 +111,32 @@ src/
 - `script setup`: Lógica clara, organizada por bloques funcionales
 - `style`: Scoped y documentado. Incluye SASS para personalización
 - ✅ No requiere ningún CSS externo adicional
+
+---
+
+## ✅ Cobertura de tests
+
+- ✓ src/test/SalesBySocial.spec.ts (3 tests) 155ms
+- ✓ src/test/TotalSales.spec.ts (1 test) 171ms
+- ✓ src/test/StoreSessions.spec.ts (1 test) 205ms
+- ✓ src/test/SessionByLocation.spec.ts (1 test) 229ms
+- ✓ src/test/TopProducts.spec.ts (2 tests) 202ms
+- ✓ src/test/ConversionRate.spec.ts (2 tests) 509ms
+- ✓ src/test/BounceRate.spec.ts (3 tests) 128ms
+- ✓ src/test/NewOrders.spec.ts (3 tests) 114ms
+- ✓ src/test/NewComments.spec.ts (3 tests) 122ms
+- ✓ src/test/TodayProfit.spec.ts (1 test) 117ms
+- ✓ src/test/VisitorsAnalytics.spec.ts (1 test) 177ms
+- ✓ src/test/TodayVisits.spec.ts (1 test) 122ms
+- ✓ src/test/AvgTimeSite.spec.ts (2 tests) 80ms
+- ✓ src/test/UniqueVisitors.spec.ts (1 test) 83ms
+- ✓ src/test/TotalVisitors.spec.ts (1 test) 60ms
+- ✓ src/test/MarketingCampaign.spec.ts (3 tests) 84ms
+
+- 🔹 Test Files 16 passed (16)
+- 🔹 Tests 29 passed (29)
+- 🔹 Start at 20:00:54
+- 🧪 Duration 9.09s
 
 ---
 

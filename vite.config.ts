@@ -8,6 +8,14 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 export default defineConfig(({ command }) => ({
   base: command === "build" ? "/dashboard-startup/" : "/",
   plugins: [vue(), vueJsx()],
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./src/vitest.setup.ts"],
+    coverage: {
+      reporter: ["text", "json", "html"],
+    },
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

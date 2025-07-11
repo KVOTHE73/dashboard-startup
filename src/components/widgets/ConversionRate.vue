@@ -47,7 +47,7 @@
       </div>
 
       <!-- 🛒 Añadido al carrito -->
-      <div class="d-flex mb-2">
+      <div class="d-flex mb-2" data-testid="conversion-metric">
         <div class="d-flex align-items-center">
           <i class="fa fa-circle text-red fs-8px me-2"></i>
           {{ t("dashboard.widgets.conversionRate.addedToCart") }}
@@ -74,7 +74,7 @@
       </div>
 
       <!-- 🧾 Llegaron al checkout -->
-      <div class="d-flex mb-2">
+      <div class="d-flex mb-2" data-testid="conversion-metric">
         <div class="d-flex align-items-center">
           <i class="fa fa-circle text-warning fs-8px me-2"></i>
           {{ t("dashboard.widgets.conversionRate.reachedeCheckout") }}
@@ -102,7 +102,7 @@
 
       <!-- ✅ Sesiones convertidas -->
       <div class="d-flex">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" data-testid="conversion-metric">
           <i class="fa fa-circle text-lime fs-8px me-2"></i>
           {{ t("dashboard.widgets.conversionRate.sessionsConverted") }}
         </div>

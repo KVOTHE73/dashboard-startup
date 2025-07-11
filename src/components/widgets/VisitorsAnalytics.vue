@@ -17,6 +17,7 @@
         <div class="col-xl-3 col-4">
           <h3 class="mb-1">
             <span
+              data-testid="animated-number"
               data-animation="number"
               :data-format="formatType(visitorsData?.newVisitors)"
               :data-value="formatValue(visitorsData?.newVisitors)"
@@ -41,6 +42,7 @@
         <div class="col-xl-3 col-4">
           <h3 class="mb-1">
             <span
+              data-testid="animated-number"
               data-animation="number"
               :data-format="formatType(visitorsData?.returningVisitors)"
               :data-value="formatValue(visitorsData?.returningVisitors)"
@@ -67,6 +69,7 @@
         <div class="col-xl-3 col-4">
           <h3 class="mb-1">
             <span
+              data-testid="animated-number"
               data-animation="number"
               :data-format="formatType(visitorsData?.pageViews)"
               :data-value="formatValue(visitorsData?.pageViews)"

@@ -17,6 +17,7 @@
         <p>
           <!-- 💡 Se usa data-animation para activar animateNumber -->
           <span
+            data-testid="bounce-rate-value"
             data-animation="number"
             data-format="decimal"
             :data-value="bounceRate.toFixed(2)"

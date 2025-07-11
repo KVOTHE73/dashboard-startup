@@ -1,7 +1,8 @@
 import type { Plugin } from "vue";
 import { createI18n } from "vue-i18n";
+import type { LocaleMessages } from "vue-i18n";
 
-const messages = {
+const messages: LocaleMessages<any> = {
   es: {
     "Cambiar tema": "Cambiar tema",
     user: {
@@ -100,6 +101,7 @@ const messages = {
           tooltipContent:
             "Productos con más unidades vendidas. Incluye pedidos de todos los canales de venta",
           soldLabel: "vendidos",
+          noProducts: "No hay productos",
         },
         sessionByLocation: {
           title: "SESIONES POR UBICACIÓN",
@@ -308,6 +310,7 @@ const messages = {
           tooltipContent:
             "Products with the most individual units sold. Includes orders from all sales channels.",
           soldLabel: "sold",
+          noProducts: "No products found",
         },
         sessionByLocation: {
           title: "SESSION BY LOCATION",
@@ -418,6 +421,8 @@ const messages = {
     },
   },
 };
+
+export { messages };
 
 // ✅ Creamos instancia con Composition API habilitada
 const i18n = createI18n({

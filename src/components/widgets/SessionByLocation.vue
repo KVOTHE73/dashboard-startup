@@ -23,6 +23,7 @@
         v-for="(country, index) in translatedCountries"
         :key="index"
         class="d-flex align-items-center text-white mb-2"
+        :data-testid="'country-row-' + country.key"
       >
         <div
           class="widget-img widget-img-xs rounded bg-dark me-2 w-40px"
@@ -32,7 +33,11 @@
         <div class="d-flex w-100">
           <div>{{ country.name }}</div>
           <div class="ms-auto text-gray-500">
-            <span data-animation="number" :data-value="country.value">0.00</span
+            <span
+              :data-testid="'percent-' + country.key"
+              data-animation="number"
+              :data-value="country.value"
+              >0.00</span
             >%
           </div>
         </div>

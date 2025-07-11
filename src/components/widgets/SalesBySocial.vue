@@ -25,6 +25,7 @@
       <!-- 🔸 Total de ventas (animado) -->
       <h3 class="text-start">
         <span
+          data-testid="total-sales"
           data-animation="number"
           data-format="currency"
           :data-value="totalSales"
@@ -36,6 +37,7 @@
       <div class="text-gray-500 text-start">
         <i class="fa fa-caret-up"></i>
         <span
+          data-testid="increase-percent"
           data-animation="number"
           data-format="decimal"
           :data-value="increasePercent"
@@ -50,6 +52,7 @@
       <a
         v-for="source in sources"
         :key="source.nameKey"
+        :data-testid="'source-' + source.nameKey.split('.').pop()"
         href="#"
         class="widget-list-item mb-1"
         :class="{
@@ -65,6 +68,7 @@
         </div>
         <div class="widget-list-action text-nowrap text-gray-500">
           <span
+            :data-testid="'value-' + source.nameKey.split('.').pop()"
             data-animation="number"
             data-format="currency"
             :data-value="source.value"

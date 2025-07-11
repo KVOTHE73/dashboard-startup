@@ -20,6 +20,7 @@
           <div class="d-flex mb-2">
             <h2 class="mb-0">
               <span
+                data-testid="total-sales"
                 data-animation="number"
                 data-format="currency"
                 :data-value="totalSalesData.totalSalesAmount"

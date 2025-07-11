@@ -16,6 +16,7 @@
         <h4>{{ t("dashboard.widgets.totalVisitors.period") }}</h4>
         <p>
           <span
+            data-testid="total-visitors"
             data-animation="number"
             data-format="integer"
             :data-value="totalVisitorsData.totalVisitors"

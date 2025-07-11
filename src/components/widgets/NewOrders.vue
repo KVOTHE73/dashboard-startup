@@ -25,6 +25,7 @@
         <!-- 🔸 Número total de pedidos (animado) -->
         <div class="stats-number">
           <span
+            data-testid="orders-count"
             data-animation="number"
             data-format="integer"
             :data-value="totalOrders"
@@ -36,13 +37,14 @@
         <!-- 🔸 Barra de progreso basada en crecimiento -->
         <div class="stats-progress progress">
           <div
+            data-testid="progress-bar"
             class="progress-bar"
             :style="{ width: `${growthPercent}%` }"
           ></div>
         </div>
 
         <!-- 🔸 Pie de texto con crecimiento dinámico -->
-        <div class="stats-desc">
+        <div class="stats-desc" data-testid="footer-text">
           {{ footerText }}
         </div>
       </div>

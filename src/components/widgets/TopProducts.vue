@@ -10,43 +10,55 @@
 <template>
   <div class="card border-0 bg-gray-800 text-white border-radius-top">
     <div class="card-body">
-      <!-- 🔁 Listado de productos -->
-      <div
-        v-for="product in topProducts"
-        :key="product.id"
-        class="d-flex align-items-center mb-15px"
-      >
-        <!-- 🖼️ Imagen del producto -->
-        <div class="widget-img rounded-3 me-10px bg-white p-3px w-30px">
-          <div
-            class="h-100 w-100"
-            :style="`background: url(${product.image}) center no-repeat; background-size: auto 100%;`"
-          ></div>
-        </div>
+      <template v-if="topProducts.length">
+        <!-- 🔁 Listado de productos -->
+        <div
+          v-for="product in topProducts"
+          :key="product.id"
+          class="d-flex align-items-center mb-15px"
+        >
+          <!-- 🖼️ Imagen del producto -->
+          <div class="widget-img rounded-3 me-10px bg-white p-3px w-30px">
+            <div
+              class="h-100 w-100"
+              :style="`background: url(${product.image}) center no-repeat; background-size: auto 100%;`"
+            ></div>
+          </div>
 
-        <!-- 📦 Nombre y precio -->
-        <div class="text-truncate">
-          <div>{{ product.name }}</div>
-          <div class="text-gray-500 text-start">
-            {{ formatPrice(product.priceValue) }}
+          <!-- 📦 Nombre y precio -->
+          <div class="text-truncate">
+            <div>{{ product.name }}</div>
+            <div class="text-gray-500 text-start">
+              {{ formatPrice(product.priceValue) }}
+            </div>
           </div>
-        </div>
 
-        <!-- 🔢 Unidades vendidas -->
-        <div class="ms-auto text-center">
-          <div class="fs-13px">
-            <span
-              data-animation="number"
-              data-format="integer"
-              :data-value="product.unitsSold"
-              >0</span
-            >
-          </div>
-          <div class="text-gray-500 fs-10px">
-            {{ t("dashboard.widgets.topProducts.soldLabel") }}
+          <!-- 🔢 Unidades vendidas -->
+          <div class="ms-auto text-center">
+            <div class="fs-13px">
+              <span
+                data-animation="number"
+                data-format="integer"
+                :data-value="product.unitsSold"
+                >0</span
+              >
+            </div>
+            <div class="text-gray-500 fs-10px">
+              {{ t("dashboard.widgets.topProducts.soldLabel") }}
+            </div>
           </div>
         </div>
-      </div>
+      </template>
+
+      <!-- ⚠️ Si no hay productos -->
+      <template v-else>
+        <div
+          class="text-center text-gray-500 py-20px"
+          data-testid="no-products-msg"
+        >
+          {{ t("dashboard.widgets.topProducts.noProducts") }}
+        </div>
+      </template>
     </div>
   </div>
 </template>
